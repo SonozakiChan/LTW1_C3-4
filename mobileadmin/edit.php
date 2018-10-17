@@ -104,7 +104,7 @@ $product = $obj->edit($_GET['id']);
                                         </div>
                                     </div>
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <button type="submit" class="btn btn-success">Edit</button>
                                     </div>
                                 </div>
                         </form>
