@@ -1,4 +1,7 @@
 <?php
+
+    session_start();
+    require_once "check_authetication.php";
     require_once "config.php";
     require_once "Db.php";
 
@@ -43,7 +46,7 @@
 		ul.pagination li{
 		  float: left;
 		  display: inline-block;
-		  padding: 10px
+		  padding: 10px;
 		}
         .sanpham img{
             width: 350px;
@@ -53,61 +56,9 @@
 </head>
 <body>
 
-<!--Header-part-->
-<div id="header">
-	<h1><a href="dashboard.html">Dashboard</a></h1>
-</div>
-<!--close-Header-part-->
+<!--Master - Top-->
+<?php require_once "View/all-div.php"?>
 
-<!--top-Header-menu-->
-<div id="user-nav" class="navbar navbar-inverse">
-	<ul class="nav">
-		<li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome Super Admin</span><b class="caret"></b></a>
-			<ul class="dropdown-menu">
-				<li><a href="#"><i class="icon-user"></i> My Profile</a></li>
-				<li class="divider"></li>
-				<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
-				<li class="divider"></li>
-				<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
-			</ul>
-		</li>
-		<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
-			<ul class="dropdown-menu">
-				<li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
-				<li class="divider"></li>
-				<li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
-				<li class="divider"></li>
-				<li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
-				<li class="divider"></li>
-				<li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
-			</ul>
-		</li>
-		<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-		<li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
-	</ul>
-</div>
-
-<!--start-top-serch-->
-<div id="search">
-	<form action="result.php" method="get">
-	<input type="text" placeholder="Search here..." name="key"/>
-	<button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
-</form>
-</div>
-<!--close-top-serch-->
-
-<!--sidebar-menu-->
-
-<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
-	<ul>
-		<li><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-		<li> <a href="form.html"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
-		<li> <a href="manufactures.html"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-
-
-
-	</ul>
-</div>
 <!-- BEGIN CONTENT -->
 <div id="content">
 	<div id="content-header">
@@ -145,7 +96,7 @@
                                     <td><?php echo $value['description']?></td>
                                     <td><?php echo $value['price']?></td>
                                     <td>
-                                        <a href="form.php?id=<?php echo $value['ID']?>" class="btn btn-success btn-mini">Edit</a>
+                                        <a href="edit.php?id=<?php echo $value['ID']?>" class="btn btn-success btn-mini">Edit</a>
                                         <a href="index.php?delete_id=<?php echo $value['ID']?>" class="btn btn-danger btn-mini">Delete</a>
                                     </td>
                                 </tr>
@@ -153,7 +104,7 @@
 						</tbody>
 						</table>
 						<ul class="pagination">
-							<?php echo  $objProduct->firstOrLastPage($url,1,"<<").$objProduct->preBtn($page,$url).$objProduct->paginate($url,$total,$page,$per_page,2).$objProduct->nextBtn($page,$url).$objProduct->firstOrLastPage($url,$total_links,">>"); ?>
+							<?php echo  $objProduct->firstOrLastPage($url,1,"<<",$page,$total_links,'').$objProduct->preBtn($page,$url,'').$objProduct->paginate($url,$total,$page,$per_page,2,'').$objProduct->nextBtn($page,$url,$total_links,'').$objProduct->firstOrLastPage($url,$total_links,">>",$page,$total_links,''); ?>
 						</ul>
 						
 					</div>
@@ -167,6 +118,7 @@
 <div class="row-fluid">
 	<div id="footer" class="span12"> 2017 &copy; TDC - Lập trình web 1</div>
 </div>
+
 <!--end-Footer-part-->
 <script src="public/js/jquery.min.js"></script>
 <script src="public/js/jquery.ui.custom.js"></script>

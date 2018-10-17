@@ -3,12 +3,16 @@
     /**
      * Hien cac manu tim thay
     */
+    session_start();
+    require_once "check_authetication.php";
     require_once "config.php";
     require_once "Db.php";
 
     $obj = new Db();
     $types = $obj->showType();
     $manus = $obj->showManu();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,62 +31,8 @@
 </head>
 <body>
 
-<!--Header-part-->
-<div id="header">
-	<h1><a href="dashboard.html">Dashboard</a></h1>
-</div>
-<!--close-Header-part-->
-
-<!--top-Header-menu-->
-<div id="user-nav" class="navbar navbar-inverse">
-	<ul class="nav">
-		<li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome Super Admin</span><b class="caret"></b></a>
-			<ul class="dropdown-menu">
-				<li><a href="#"><i class="icon-user"></i> My Profile</a></li>
-				<li class="divider"></li>
-				<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
-				<li class="divider"></li>
-				<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
-			</ul>
-		</li>
-		<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
-			<ul class="dropdown-menu">
-				<li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
-				<li class="divider"></li>
-				<li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
-				<li class="divider"></li>
-				<li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
-				<li class="divider"></li>
-				<li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
-			</ul>
-		</li>
-		<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-		<li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
-	</ul>
-</div>
-
-<!--start-top-serch-->
-<div id="search">
-	<form action="result.html" method="get">
-	<input type="text" placeholder="Search here..." name="key"/>
-	<button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
-</form>
-</div>
-<!--close-top-serch-->
-
-<!--sidebar-menu-->
-
-<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
-	<ul>
-		<li><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-
-		<li> <a href="form.html"><i class="icon icon-th-list"></i> <span>Add New Product</span></a></li>
-		<li> <a href="manufactures.html"><i class="icon icon-th-list"></i> <span>Manufactures</span></a></li>
-
-
-
-	</ul>
-</div>
+<!--Master - Top-->
+<?php require_once "View/all-div.php"?>
 
 <!-- BEGIN CONTENT -->
 <div id="content">
@@ -101,11 +51,12 @@
 					<div class="widget-content nopadding">
 
 						<!-- BEGIN USER FORM -->
-						<form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
+						<form action="update.php" method="post" class="form-horizontal" enctype="multipart/form-data">
 							<div class="control-group">
 								<label class="control-label">Name :</label>
 								<div class="controls">
-									<input type="text" class="span11" placeholder="Product name" name="name" /> *
+									<input type="text" class="span11" placeholder="Product name" name="name" value="<?php echo (isset($_SESSION['old']['name']))?$_SESSION['old']['name']:null ?>"/> *
+                                    <?php echo (isset($_SESSION['error']['name']))?"<div class=\"alert alert-error\" style=\"margin-top:10px;\">".$_SESSION['error']['name']."</div>":''?>
 								</div>
 							</div>
 							<div class="control-group">
@@ -131,17 +82,20 @@
 									<label class="control-label">Choose an image :</label>
 									<div class="controls">
 										<input type="file" name="fileUpload" id="fileUpload">
+                                        <?php echo (isset($_SESSION['error']['fileUpload']))?"<div class=\"alert alert-error\" style=\"margin-top:10px;\">".$_SESSION['error']['fileUpload']."</div>":''?>
 									</div>
 								</div>
 								<div class="control-group">
 									<label class="control-label"  >Description</label>
 									<div class="controls">
-										<textarea class="span11" placeholder="Description" name = "description"></textarea>
+										<textarea class="span11" placeholder="Description" name = "description"><?php echo (isset($_SESSION['old']['description']))?$_SESSION['old']['description']:null ?></textarea>
+                                        <?php echo (isset($_SESSION['error']['description']))?"<div class=\"alert alert-error\" style=\"margin-top:10px;\">".$_SESSION['error']['description']."</div>":''?>
 									</div>
 									<div class="control-group">
 										<label class="control-label">Price :</label>
 										<div class="controls">
-											<input type="text" class="span11" placeholder="price" name = "price" /> *
+											<input type="text" class="span11" placeholder="price" name = "price" value="<?php echo (isset($_SESSION['old']['price']))?$_SESSION['old']['price']:null ?>"/> *
+                                            <?php echo (isset($_SESSION['error']['price']))?"<div class=\"alert alert-error\" style=\"margin-top:10px;\">".$_SESSION['error']['price']."</div>":''?>
 										</div>
 									</div>
 									<div class="form-actions">
